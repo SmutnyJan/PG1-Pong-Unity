@@ -2,7 +2,7 @@
     "name": "PongInputSystem",
     "maps": [
         {
-            "name": "Player",
+            "name": "Player1",
             "id": "9ade0d0f-7459-4211-b322-3f8e448b812f",
             "actions": [
                 {
@@ -42,6 +42,56 @@
                     "name": "positive",
                     "id": "9f91b663-b525-48b4-a3db-6f9145f06c89",
                     "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Player2",
+            "id": "42ccab02-8ae7-4c51-924a-c1bc6627d25c",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "25bd6007-aba5-4168-9706-26d6c0160e61",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "8108a329-8d1d-4614-9005-9c8f812a5bd7",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "2db68f55-d2d0-4ad7-9313-1a31b487c053",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "51513dc1-7fc9-4c68-b024-6eabc729f8df",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PaddleMovementController : MonoBehaviour
 {
+    public float Speed = 5f;
+    public bool IsPlayerOne = true;
+
     private PongInputSystem _inputSystem;
     private InputAction _moveAction;
     private Rigidbody2D _rigidbody;
-    private int _count = 0;
-    public float speed = 5f; 
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
 
-        _moveAction = _inputSystem.Player.Move;
+        _moveAction = IsPlayerOne ? _inputSystem.Player1.Move : _inputSystem.Player2.Move;
         _moveAction.Enable();
     }
 
@@ -27,17 +28,14 @@ public class PlayerController : MonoBehaviour
     {
         float moveDir = _moveAction.ReadValue<float>();
 
-        if(moveDir != 0)
+        if (moveDir != 0)
         {
-            _rigidbody.AddForce(new Vector2(0, moveDir * speed), ForceMode2D.Force);
+            _rigidbody.AddForce(new Vector2(0, moveDir * Speed), ForceMode2D.Impulse);
         }
         else
         {
             _rigidbody.linearVelocity = Vector2.zero;
         }
-
-
-        Debug.Log($"Move Direction: {moveDir}");
     }
 
     private void OnDisable()
