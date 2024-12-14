@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static GameManager;
 
 public class BallController : MonoBehaviour
 {
@@ -29,36 +30,43 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Border Right") //Player 1 scored point
+        if (collision.gameObject.name == "Border Right")
         {
             GameManager.PlayerScored(GameManager.Player.Player1);
-            ResetAndLaunchBall(new Vector2(0, 0), Vector2.right);
+            ResetBall();
+            GameManager.PostGoalScreen();
         }
-        else if (collision.gameObject.name == "Border Left") //Player 2 scored point
+        else if (collision.gameObject.name == "Border Left")
         {
             GameManager.PlayerScored(GameManager.Player.Player2);
-            ResetAndLaunchBall(new Vector2(0, 0), Vector2.left);
+            ResetBall();
+            GameManager.PostGoalScreen();
+        }
+        else if(collision.gameObject.tag == "Player")
+        {
+            SoundManager.SoundManagerInstance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Bounce);
 
         }
     }
-
-    private void ResetAndLaunchBall(Vector2 resetTo, Vector2 launchTo)
+    private void ResetBall()
     {
-        transform.position = resetTo;
+        transform.position = Vector2.zero;
         _rigidbody2D.linearVelocity = Vector2.zero;
-
-        StartCoroutine(WaitAndDo(3, () =>
-        {
-            _rigidbody2D.AddForce(launchTo * BallForce, ForceMode2D.Impulse);
-        }));
     }
 
-    private IEnumerator WaitAndDo(float seconds, Action action)
+    public void LaunchBall(Player recentWinner)
     {
-        yield return new WaitForSeconds(seconds);
-        action?.Invoke();
-    }
+        switch (recentWinner)
+        {
+            case Player.Player1:
+                _rigidbody2D.AddForce(new Vector2(-1, UnityEngine.Random.Range(-0.9f, 0.9f)) * BallForce, ForceMode2D.Impulse);
+                break;
+            case Player.Player2:
+                _rigidbody2D.AddForce(new Vector2(1, UnityEngine.Random.Range(-0.9f, 0.9f)) * BallForce, ForceMode2D.Impulse);
+                break;
 
+        }
+    }
 
 
 

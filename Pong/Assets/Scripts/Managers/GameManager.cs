@@ -3,21 +3,24 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI Player1ScoreUIText;
-    public TextMeshProUGUI Player2ScoreUIText;
-
+    public UIManager UIManager;
+    public BallController BallController;
 
     private int _player1Score = 0;
     private int _player2Score = 0;
+
+    private Player _recentPlayerScorer;
+
+    
     void Start()
     {
-        Player1ScoreUIText.text = _player1Score.ToString();
-        Player2ScoreUIText.text = _player2Score.ToString();
+        UIManager.SetPlayerScore(Player.Player1, _player1Score);
+        UIManager.SetPlayerScore(Player.Player2, _player2Score);
     }
 
     void Update()
     {
-        
+
     }
 
 
@@ -27,13 +30,25 @@ public class GameManager : MonoBehaviour
         {
             case Player.Player1:
                 _player1Score++;
-                Player1ScoreUIText.text = _player1Score.ToString();
+                UIManager.SetPlayerScore(Player.Player1, _player1Score);
+                _recentPlayerScorer = Player.Player1;
                 break;
             case Player.Player2:
                 _player2Score++;
-                Player2ScoreUIText.text = _player2Score.ToString();
+                UIManager.SetPlayerScore(Player.Player2, _player2Score);
+                _recentPlayerScorer = Player.Player2;
                 break;
         }
+    }
+
+    public void PostGoalScreen()
+    {
+        UIManager.HandleGoal(_recentPlayerScorer);
+    }
+
+    public void OnCountdownFinished()
+    {
+        BallController.LaunchBall(_recentPlayerScorer);
     }
 
 
