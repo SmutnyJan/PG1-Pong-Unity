@@ -7,6 +7,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public List<AudioClip> BounceSounds;
+    public List<AudioClip> LoseSounds;
 
     private AudioSource _audioSource;
 
@@ -29,7 +30,7 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    public void PlaySoundByName(string name)
+    public void PlaySoundByName(string name, AudioSource audioSource)
     {
         AudioClip clip = BounceSounds.Where(x => x.name == name).FirstOrDefault();
         if (clip == null)
@@ -43,8 +44,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlaySound(AudioClip clip)
     {
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        _audioSource.PlayOneShot(clip);
     }
 
     public void PlayRandomSoundFromCategory(SoundCategory soundCategory)
@@ -55,6 +55,11 @@ public class SoundManager : MonoBehaviour
                 AudioClip randomBoucingClip = BounceSounds[Random.Range(0, BounceSounds.Count)];
                 PlaySound(randomBoucingClip);
                 break;
+
+            case SoundCategory.Lose:
+                AudioClip randomLosingClip = LoseSounds[Random.Range(0, LoseSounds.Count)];
+                PlaySound(randomLosingClip);
+                break;
         }
     }
 
@@ -64,6 +69,7 @@ public class SoundManager : MonoBehaviour
     public enum SoundCategory
     {
         Bounce,
+        Lose
     }
 
 }
