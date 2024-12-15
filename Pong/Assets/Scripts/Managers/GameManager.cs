@@ -9,13 +9,14 @@ public class GameManager : MonoBehaviour
     private int _player1Score = 0;
     private int _player2Score = 0;
 
-    private Player _recentPlayerScorer;
+    private Player _recentPlayerScorer = Player.None;
 
     
     void Start()
     {
         UIManager.SetPlayerScore(Player.Player1, _player1Score);
         UIManager.SetPlayerScore(Player.Player2, _player2Score);
+        UIManager.InitScreen();
     }
 
     void Update()
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public enum Player
     {
+        None,
         Player1,
         Player2
     }

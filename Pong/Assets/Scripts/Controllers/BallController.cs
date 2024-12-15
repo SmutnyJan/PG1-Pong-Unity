@@ -18,10 +18,7 @@ public class BallController : MonoBehaviour
 
     void Start()
     {
-        Vector2 randomDirection = UnityEngine.Random.value < 0.5f? new Vector2(-1, UnityEngine.Random.Range(-0.9f, 0.9f)): new Vector2(1, UnityEngine.Random.Range(-0.9f, 0.9f));
 
-
-        _rigidbody2D.AddForce(randomDirection * BallForce, ForceMode2D.Impulse);
     }
 
     void Update()
@@ -67,6 +64,11 @@ public class BallController : MonoBehaviour
                 break;
             case Player.Player2:
                 _rigidbody2D.AddForce(new Vector2(1, UnityEngine.Random.Range(-0.9f, 0.9f)) * BallForce, ForceMode2D.Impulse);
+                break;
+
+            case Player.None:
+                Vector2 randomDirection = UnityEngine.Random.value < 0.5f ? new Vector2(-1, UnityEngine.Random.Range(-0.9f, 0.9f)) : new Vector2(1, UnityEngine.Random.Range(-0.9f, 0.9f));
+                _rigidbody2D.AddForce(randomDirection * BallForce, ForceMode2D.Impulse);
                 break;
 
         }
