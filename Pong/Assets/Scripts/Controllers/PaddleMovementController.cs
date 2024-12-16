@@ -5,10 +5,13 @@ public class PaddleMovementController : MonoBehaviour
 {
     public float Speed = 5f;
     public bool IsPlayerOne = true;
+    public GameManager GameManager;
+    public bool IsPaused = false;
 
     private PongInputSystem _inputSystem;
     private InputAction _moveAction;
     private Rigidbody2D _rigidbody;
+
 
     private void Awake()
     {
@@ -18,9 +21,32 @@ public class PaddleMovementController : MonoBehaviour
 
     private void OnEnable()
     {
+        if(IsPlayerOne)
+        {
+            _moveAction = _inputSystem.Player1.Move;
+        }
+        else
+        {
+            _moveAction = _inputSystem.Player2.Move;
+        }
 
-        _moveAction = IsPlayerOne ? _inputSystem.Player1.Move : _inputSystem.Player2.Move;
         _moveAction.Enable();
+    }
+
+    public void OnShowMenu()
+    {
+        if(!IsPlayerOne)
+        {
+            Debug.Log(IsPaused);
+            if (!IsPaused) 
+            {
+                GameManager.PauseMenu(true);
+            }
+            else
+            {
+                GameManager.PauseMenu(false);
+            }
+        }
     }
 
 

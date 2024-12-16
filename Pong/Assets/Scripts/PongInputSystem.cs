@@ -90,7 +90,7 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": ""1D Axis"",
-                    ""id"": ""8108a329-8d1d-4614-9005-9c8f812a5bd7"",
+                    ""id"": ""3c7ae3df-2ba2-4298-aa68-02ee9923736d"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -101,7 +101,7 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""2db68f55-d2d0-4ad7-9313-1a31b487c053"",
+                    ""id"": ""5fb76491-0472-4e04-86b5-efc86687f5a7"",
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -112,7 +112,7 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""51513dc1-7fc9-4c68-b024-6eabc729f8df"",
+                    ""id"": ""50d1c7f8-c4fd-4156-8e8a-1a7f71bdacfc"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -120,6 +120,34 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""Commons"",
+            ""id"": ""2b3d8860-0159-4e74-b075-482cd722fbab"",
+            ""actions"": [
+                {
+                    ""name"": ""ShowMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""38b1c997-a7f5-4328-8399-d5fa8c0789d0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6f87a8dc-f6e5-41e5-bceb-59ad87115d99"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -132,12 +160,16 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
+        // Commons
+        m_Commons = asset.FindActionMap("Commons", throwIfNotFound: true);
+        m_Commons_ShowMenu = m_Commons.FindAction("ShowMenu", throwIfNotFound: true);
     }
 
     ~@PongInputSystem()
     {
         UnityEngine.Debug.Assert(!m_Player1.enabled, "This will cause a leak and performance issues, PongInputSystem.Player1.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Player2.enabled, "This will cause a leak and performance issues, PongInputSystem.Player2.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Commons.enabled, "This will cause a leak and performance issues, PongInputSystem.Commons.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -287,6 +319,52 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
         }
     }
     public Player2Actions @Player2 => new Player2Actions(this);
+
+    // Commons
+    private readonly InputActionMap m_Commons;
+    private List<ICommonsActions> m_CommonsActionsCallbackInterfaces = new List<ICommonsActions>();
+    private readonly InputAction m_Commons_ShowMenu;
+    public struct CommonsActions
+    {
+        private @PongInputSystem m_Wrapper;
+        public CommonsActions(@PongInputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShowMenu => m_Wrapper.m_Commons_ShowMenu;
+        public InputActionMap Get() { return m_Wrapper.m_Commons; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CommonsActions set) { return set.Get(); }
+        public void AddCallbacks(ICommonsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CommonsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CommonsActionsCallbackInterfaces.Add(instance);
+            @ShowMenu.started += instance.OnShowMenu;
+            @ShowMenu.performed += instance.OnShowMenu;
+            @ShowMenu.canceled += instance.OnShowMenu;
+        }
+
+        private void UnregisterCallbacks(ICommonsActions instance)
+        {
+            @ShowMenu.started -= instance.OnShowMenu;
+            @ShowMenu.performed -= instance.OnShowMenu;
+            @ShowMenu.canceled -= instance.OnShowMenu;
+        }
+
+        public void RemoveCallbacks(ICommonsActions instance)
+        {
+            if (m_Wrapper.m_CommonsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICommonsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CommonsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CommonsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CommonsActions @Commons => new CommonsActions(this);
     public interface IPlayer1Actions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -294,5 +372,9 @@ public partial class @PongInputSystem: IInputActionCollection2, IDisposable
     public interface IPlayer2Actions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface ICommonsActions
+    {
+        void OnShowMenu(InputAction.CallbackContext context);
     }
 }

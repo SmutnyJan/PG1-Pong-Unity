@@ -12,21 +12,23 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI InitialCountdownText;
     public GameObject PostGoalPanel;
     public GameObject InitialPanel;
+    public GameObject PauseMenuPanel;
+
 
     public GameManager GameManager;
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 
     public void SetPlayerScore(GameManager.Player player, int score)
     {
-        TextMeshProUGUI textToChange = player == GameManager.Player.Player1? Player1ScoreUIText: Player2ScoreUIText;
+        TextMeshProUGUI textToChange = player == GameManager.Player.Player1 ? Player1ScoreUIText : Player2ScoreUIText;
 
         textToChange.text = score.ToString();
     }
@@ -40,11 +42,19 @@ public class UIManager : MonoBehaviour
     public void HandleGoal(Player scorer)
     {
         PostGoalPanel.SetActive(true);
-        PlayerHasScoredText.text = (scorer == Player.Player1) ? "Player 1 has scored": "Player 2 has scored";
-
+        PlayerHasScoredText.text = (scorer == Player.Player1) ? "Player 1 has scored" : "Player 2 has scored";
 
         StartCoroutine(CountdownCoroutine(3));
+    }
 
+    public void ShowPauseMenu()
+    {
+        PauseMenuPanel.SetActive(true);
+    }
+
+    public void HidePauseMenu()
+    {
+        PauseMenuPanel.SetActive(false);
     }
 
 

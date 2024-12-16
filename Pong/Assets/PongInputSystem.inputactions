@@ -68,7 +68,7 @@
             "bindings": [
                 {
                     "name": "1D Axis",
-                    "id": "8108a329-8d1d-4614-9005-9c8f812a5bd7",
+                    "id": "3c7ae3df-2ba2-4298-aa68-02ee9923736d",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
@@ -79,7 +79,7 @@
                 },
                 {
                     "name": "negative",
-                    "id": "2db68f55-d2d0-4ad7-9313-1a31b487c053",
+                    "id": "5fb76491-0472-4e04-86b5-efc86687f5a7",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
@@ -90,7 +90,7 @@
                 },
                 {
                     "name": "positive",
-                    "id": "51513dc1-7fc9-4c68-b024-6eabc729f8df",
+                    "id": "50d1c7f8-c4fd-4156-8e8a-1a7f71bdacfc",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
@@ -98,6 +98,34 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Commons",
+            "id": "2b3d8860-0159-4e74-b075-482cd722fbab",
+            "actions": [
+                {
+                    "name": "ShowMenu",
+                    "type": "Button",
+                    "id": "38b1c997-a7f5-4328-8399-d5fa8c0789d0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6f87a8dc-f6e5-41e5-bceb-59ad87115d99",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -2,14 +2,18 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public List<AudioClip> BounceSounds;
     public List<AudioClip> LoseSounds;
+    public List<AudioClip> ClickSounds;
+    public AudioClip Soundtrack;
 
     private AudioSource _audioSource;
+    private AudioSource _audioSourceMusic;
 
 
     public static SoundManager SoundManagerInstance;
@@ -20,6 +24,7 @@ public class SoundManager : MonoBehaviour
         {
             SoundManagerInstance = this;
             _audioSource = GetComponent<AudioSource>();
+            _audioSourceMusic = GetComponents<AudioSource>()[1];
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -30,7 +35,9 @@ public class SoundManager : MonoBehaviour
     }
     void Start()
     {
-        
+        _audioSourceMusic.clip = Soundtrack;
+        _audioSourceMusic.loop = true;
+        _audioSourceMusic.Play();
     }
 
     void Update()
@@ -38,7 +45,7 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    public void PlaySoundByName(string name, AudioSource audioSource)
+    /*public void PlaySoundByName(string name, AudioSource audioSource)
     {
         AudioClip clip = BounceSounds.Where(x => x.name == name).FirstOrDefault();
         if (clip == null)
@@ -48,7 +55,7 @@ public class SoundManager : MonoBehaviour
         PlaySound(clip);
 
 
-    }
+    }*/
 
     private void PlaySound(AudioClip clip)
     {
@@ -68,6 +75,11 @@ public class SoundManager : MonoBehaviour
                 AudioClip randomLosingClip = LoseSounds[Random.Range(0, LoseSounds.Count)];
                 PlaySound(randomLosingClip);
                 break;
+
+            case SoundCategory.Click:
+                AudioClip randomClickingClip = ClickSounds[Random.Range(0, ClickSounds.Count)];
+                PlaySound(randomClickingClip);
+                break;
         }
     }
 
@@ -77,7 +89,8 @@ public class SoundManager : MonoBehaviour
     public enum SoundCategory
     {
         Bounce,
-        Lose
+        Lose,
+        Click
     }
 
 }
