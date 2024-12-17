@@ -12,19 +12,21 @@ public class SoundManager : MonoBehaviour
     public List<AudioClip> ClickSounds;
     public AudioClip Soundtrack;
 
-    private AudioSource _audioSource;
-    private AudioSource _audioSourceMusic;
 
 
-    public static SoundManager SoundManagerInstance;
+    public AudioSource AudioSourceSounds;
+    public AudioSource AudioSourceSoundstrack;
+
+
+    public static SoundManager Instance;
 
     void Awake()
     {
-        if (SoundManagerInstance == null)
+        if (Instance == null)
         {
-            SoundManagerInstance = this;
-            _audioSource = GetComponent<AudioSource>();
-            _audioSourceMusic = GetComponents<AudioSource>()[1];
+            Instance = this;
+            AudioSourceSounds = GetComponents<AudioSource>()[0];
+            AudioSourceSoundstrack = GetComponents<AudioSource>()[1];
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -35,9 +37,9 @@ public class SoundManager : MonoBehaviour
     }
     void Start()
     {
-        _audioSourceMusic.clip = Soundtrack;
-        _audioSourceMusic.loop = true;
-        _audioSourceMusic.Play();
+        AudioSourceSoundstrack.clip = Soundtrack;
+        AudioSourceSoundstrack.loop = true;
+        AudioSourceSoundstrack.Play();
     }
 
     void Update()
@@ -59,7 +61,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlaySound(AudioClip clip)
     {
-        _audioSource.PlayOneShot(clip);
+        AudioSourceSounds.PlayOneShot(clip);
     }
 
     public void PlayRandomSoundFromCategory(SoundCategory soundCategory)

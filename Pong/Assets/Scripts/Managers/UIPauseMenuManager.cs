@@ -18,11 +18,13 @@ public class UIPauseMenuManager : MonoBehaviour
 
     public void BackToMenu()
     {
+        SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Click);
         SceneManager.LoadScene(0);
     }
 
     public void Continue()
     {
+        SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Click);
         GameManager.PauseMenu(false);
     }
 }

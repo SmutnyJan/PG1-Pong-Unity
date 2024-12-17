@@ -32,21 +32,21 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.name == "Border Right")
         {
-            SoundManager.SoundManagerInstance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Lose);
+            SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Lose);
             GameManager.PlayerScored(GameManager.Player.Player1);
             ResetBall();
             GameManager.PostGoalScreen();
         }
         else if (collision.gameObject.name == "Border Left")
         {
-            SoundManager.SoundManagerInstance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Lose);
+            SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Lose);
             GameManager.PlayerScored(GameManager.Player.Player2);
             ResetBall();
             GameManager.PostGoalScreen();
         }
         else if(collision.gameObject.tag == "Player")
         {
-            SoundManager.SoundManagerInstance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Bounce);
+            SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Bounce);
         }
     }
     private void ResetBall()

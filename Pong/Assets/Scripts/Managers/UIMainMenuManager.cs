@@ -15,7 +15,7 @@ public class UIMainMenuManager : MonoBehaviour
 
     void ClickSound()
     {
-        SoundManager.SoundManagerInstance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Click);
+        SoundManager.Instance.PlayRandomSoundFromCategory(SoundManager.SoundCategory.Click);
     }
 
     public void QuitGame()
@@ -48,6 +48,18 @@ public class UIMainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         ClickSound();
+    }
 
+    public void DisplaySettings()
+    {
+        SceneManager.LoadScene(2);
+        ClickSound();
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
+        ClickSound();
+        SettingsManager.Instance.SetGameSettingsDependencies();
     }
 }

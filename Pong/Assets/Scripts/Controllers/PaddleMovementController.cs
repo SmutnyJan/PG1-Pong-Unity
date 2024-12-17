@@ -37,7 +37,6 @@ public class PaddleMovementController : MonoBehaviour
     {
         if(!IsPlayerOne)
         {
-            Debug.Log(IsPaused);
             if (!IsPaused) 
             {
                 GameManager.PauseMenu(true);
